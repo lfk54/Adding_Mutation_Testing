@@ -106,4 +106,56 @@ class NumberUtilsTest {
             NumberUtils.add(left, right);
         });
     }
+
+    @Test
+    public void testNegativeSumThrowsException() {
+        //test case to make sure IllegalArgumentException is thrown for invalid digits
+        List<Integer> left = new ArrayList<>(List.of(-1, 2));
+        List<Integer> right = new ArrayList<>(List.of(5));
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            NumberUtils.add(left, right);
+        });
+    }
+
+    @Test
+    public void testCarryOverMultipleDigits() {
+        //test case for carry over to make sure digits are tracked correctly
+        List<Integer> left = new ArrayList<>(List.of(9, 9));
+        List<Integer> right = new ArrayList<>(List.of(1));
+        List<Integer> expectedOutput = new ArrayList<>(List.of(1, 0, 0));
+
+        assertEquals(expectedOutput, NumberUtils.add(left, right));
+    }
+
+    @Test
+    public void testRightListLongerThanLeft() {
+        //test case for making sure leading zeros are handled correctly when one list is longer than the other
+        List<Integer> left = new ArrayList<>(List.of(2));
+        List<Integer> right = new ArrayList<>(List.of(9, 8));
+        List<Integer> expectedOutput = new ArrayList<>(List.of(1, 0, 0));
+
+        assertEquals(expectedOutput, NumberUtils.add(left, right));
+    }
+
+    @Test
+    public void testLeftListLongerThanRight() {
+        //test case for making sure leading zeros are handled correctly when one list is longer than the other
+        List<Integer> left = new ArrayList<>(List.of(9, 9));
+        List<Integer> right = new ArrayList<>(List.of(1));
+        List<Integer> expectedOutput = new ArrayList<>(List.of(1, 0, 0));
+
+        assertEquals(expectedOutput, NumberUtils.add(left, right));
+    }
+
+    @Test
+    public void testRemoveLeadingZeroesEdgeCase() {
+        //test case to make sure significant leading 0s (the number 0) are correctly handled
+        List<Integer> left = new ArrayList<>(List.of(0));
+        List<Integer> right = new ArrayList<>(List.of(0));
+        List<Integer> expectedOutput = new ArrayList<>(List.of(0));
+
+        assertEquals(expectedOutput, NumberUtils.add(left, right));
+    }
+
 }
